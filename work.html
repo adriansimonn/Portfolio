@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Work - Adrian Simon</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Corinthia:wght@400;700&family=Kapakana:wght@300..400&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <a href="index.html" style="text-decoration: none; color: inherit;">
+                <span class="logo-script">AS</span>
+            </a>
+        </div>
+        <nav class="top-nav">
+            <a href="experiences.html">EXPERIENCE</a>
+            <span class="nav-divider">|</span>
+            <a href="work.html">WORK</a>
+            <span class="nav-divider">|</span>
+            <a href="blog.html">BLOG</a>
+        </nav>
+    </header>
+
+    <main class="page-container">
+        <h1 class="page-title">Work</h1>
+
+        <div class="section">
+            <h2 class="section-title">Publications</h2>
+
+            <div class="item">
+                <div class="item-title">Semantic Convergence: Investigating Shared Representations Across Scaled LLMs</div>
+                <div class="item-subtitle">ACL 2025</div>
+                <div class="item-date">June 2025</div>
+                <div class="item-description">
+                    Novel research paper analyzing & quantifying LLM feature universality using SVCCA & RSA metrics and a sparse autoencoder
+                    dictionary-learning pipeline trained on Google Gemma 2-2B and Gemma 2-9B residual-stream activations.
+                    Unveiled striking results of mid-layer similarity and implemented feedback from Stanford and Berkeley Ph.D. reviewers/industry professionals.
+                    Presented findings at ACL 2025 in Vienna, Austria: the #1 ranked conference in natural language processing.
+                </div>
+                <div class="item-tags">
+                    <span class="tag">Research</span>
+                    <span class="tag">Large Language Models</span>
+                    <span class="tag">Mech Interp</span>
+                    <span class="tag">SAEs</span>
+                    <span class="tag">NLP</span>
+                </div>
+                <a href="https://www.arxiv.org/pdf/2507.22918" target="_blank" class="item-link">Read Paper</a>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2 class="section-title">Projects</h2>
+
+            <div class="item">
+                <div class="item-title">Enfora</div>
+                <div class="item-subtitle">Full-Stack Web Application</div>
+                <div class="item-date">Releasing November 2025</div>
+                <div class="item-description">
+                    Building an AI-powered productivity platform using React, Node, Express, & AWS (Lambda, S3, DynamoDB), that enforces
+                    task completion via financial stakes; implementing Stripe payments, AI vision-based evidence validation using OpenAI
+                    Vision, and serverless task enforcement workflows on AWS Lambda with full CI/CD and monitoring.
+                </div>
+                <div class="item-tags">
+                    <span class="tag">React</span>
+                    <span class="tag">Node.js</span>
+                    <span class="tag">Express.js</span>
+                    <span class="tag">Python</span>
+                    <span class="tag">AWS</span>
+                </div>
+            </div>
+
+            <div class="item">
+                <div class="item-title">Jamify</div>
+                <div class="item-subtitle">Web Application</div>
+                <div class="item-date">January 2025</div>
+                <div class="item-description">
+                    AI-powered Spotify playlist generator that creates and saves playlists based on user-provided natural language descriptions.
+                    Leveraging Python, Flask, the Spotify Web API, and the OpenAI API, the application searches for existing Spotify playlists that align with
+                    the user's preferences and generates a playlist of the Top-K most frequent tracks from such playlists using a heap and hashing techniques for optimized track ordering.
+                    Incorporates extensive error and edge-case handling for faulty inputs, API failures, and whitelist errors.
+                    Deployed on a simple web application developed with HTML, CSS, and JavaScript; hosted on Heroku.
+                </div>
+                <div class="item-tags">
+                    <span class="tag">Python</span>
+                    <span class="tag">Flask</span>
+                    <span class="tag">Heroku</span>
+                    <span class="tag">HTML/CSS</span>
+                    <span class="tag">JavaScript</span>
+                </div>
+                <a href="https://jamifymusic-a870f58d8b7c.herokuapp.com/" target="_blank" class="item-link">View Demo</a>
+                <a href="https://github.com/adriansimonn/Jamify" target="_blank" class="item-link">GitHub Repository</a>
+            </div>
+
+            <div class="item">
+                <div class="item-title">LungSense.AI</div>
+                <div class="item-subtitle">Classification Model & Web Application</div>
+                <div class="item-date">December 2024</div>
+                <div class="item-description">
+                    Lung cancer risk classifier that utilizes a logistic regression model (Scikit-learn) trained on a custom dataset generated through a rule-based algorithm
+                    created using weighted features, biases, and mathematical relationships grounded in extensive research on the key contributors to lung cancer risk.
+                    Fine tuned the model using techniques like cross-validation, grid search, and gradient-based optimization to achieve 96.5% model classification accuracy.
+                    Deployed on a simple web application developed with HTML, CSS, and JavaScript; hosted on Heroku.
+                </div>
+                <div class="item-tags">
+                    <span class="tag">Python</span>
+                    <span class="tag">Scikit-learn</span>
+                    <span class="tag">Pandas</span>
+                    <span class="tag">Flask</span>
+                    <span class="tag">Heroku</span>
+                    <span class="tag">HTML/CSS</span>
+                    <span class="tag">JavaScript</span>
+                </div>
+                <a href="https://lungsenseai-2e10a5e19a47.herokuapp.com/" target="_blank" class="item-link">View Demo</a>
+                <a href="https://github.com/adriansimonn/LungSenseAI" target="_blank" class="item-link">GitHub Repository</a>
+            </div>
+
+            <div class="item">
+                <div class="item-title">Vortex</div>
+                <div class="item-subtitle">Desktop Application</div>
+                <div class="item-date">July 2022</div>
+                <div class="item-description">
+                    Java-based desktop keyboard macro application with a modern, intuitive GUI built using AWT and Swing.
+                    Vortex enables users to automate text input by specifying custom messages, repeat counts, and optional delays, offering a simple yet powerful tool for keyboard automation and productivity.
+                </div>
+                <div class="item-tags">
+                    <span class="tag">Java</span>
+                    <span class="tag">Abstract Window Toolkit</span>
+                    <span class="tag">Swing</span>
+                </div>
+                <a href="https://github.com/adriansimonn/Vortex" target="_blank" class="item-link">GitHub Repository</a>
+            </div>
+
+            <div class="item">
+                <div class="item-title">Object Detection for Autonomous Vehicles</div>
+                <div class="item-subtitle">Deep Learning Model</div>
+                <div class="item-date">July 2021 - InspiritAI</div>
+                <div class="item-description">
+                    Developed computer vision models to assist autonomous vehicles using convolutional neural networks and transfer learning.
+                    Implemented a VGG16-based architecture trained on the CIFAR-10 dataset with TensorFlow and Keras, achieving 95% classification accuracy in object detection tasks.
+                </div>
+                <div class="item-tags">
+                    <span class="tag">Python</span>
+                    <span class="tag">TensorFlow</span>
+                    <span class="tag">Keras</span>
+                    <span class="tag">Neural Networks</span>
+                </div>
+                <a href="https://github.com/adriansimonn/Object-Detection-Autonomous-Vehicles" target="_blank" class="item-link">GitHub Repository</a>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <p>&copy; 2025 Adrian Simon</p>
+            <div class="footer-social-icons">
+                <a href="https://github.com/adriansimonn" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
+                    <img src="images/Logos/GitHubLogo.png" alt="GitHub" class="social-icon">
+                </a>
+                <a href="https://linkedin.com/in/adriansimonn/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+                    <img src="images/Logos/LinkedInIcon.jpg" alt="LinkedIn" class="social-icon">
+                </a>
+                <a href="https://www.instagram.com/adriansimonn/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+                    <img src="images/Logos/InstagramIcon.png" alt="Instagram" class="social-icon">
+                </a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
