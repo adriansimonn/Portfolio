@@ -8,6 +8,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Corinthia:wght@400;700&family=Kapakana:wght@300..400&display=swap" rel="stylesheet">
+    <link rel="icon" href="/images/favicon.png" type="image/png">
 </head>
 <body>
     <header>
@@ -26,8 +27,15 @@
     <main class="home-container">
         <div class="content-wrapper">
             <div class="image-section">
-                <div class="image-placeholder">
-                    <img src="images/CoverImages/CoverImage1.jpg" alt="Adrian Simon">
+                <div class="image-carousel">
+                    <button class="carousel-arrow carousel-arrow-left" aria-label="Previous image">‹</button>
+                    <div class="image-placeholder">
+                        <img src="images/CoverImages/CoverImage1.jpg" alt="Adrian Simon" class="carousel-image active">
+                        <img src="images/CoverImages/CoverImage2.jpg" alt="Adrian Simon" class="carousel-image">
+                        <img src="images/CoverImages/CoverImage3.jpg" alt="Adrian Simon" class="carousel-image">
+                        <img src="images/CoverImages/CoverImage4.jpg" alt="Adrian Simon" class="carousel-image">
+                    </div>
+                    <button class="carousel-arrow carousel-arrow-right" aria-label="Next image">›</button>
                 </div>
             </div>
 
@@ -49,9 +57,9 @@
                         I'm currenly a junior studying computer science with a strong passion for software development and machine learning. 
                     </p>
                     <p>
-                        I specialize in building scalable applications and developing machine learning models that can make a real impact. 
-                        Whether it's crafting clean, maintainable code or training neural networks, I approach each project with attention 
-                        to detail and a commitment to excellence.
+                        I focus on developing intelligent systems and intuitive applications that combine clean engineering with applied AI.
+                        From developing and training neural networks to designing full-stack tools,
+                        I approach each project as an opportunity to learn, expand and refine my skills, and grow.
                     </p>
                     <p>
                         I'm always eager to collaborate on exciting projects and learn from fellow engineers and researchers.
@@ -76,6 +84,7 @@
     <footer>
         <div class="footer-content">
             <p>&copy; 2025 Adrian Simon</p>
+            <p><a href="https://github.com/adriansimonn/Portfolio" target="_blank">Source Code</a></p>
             <div class="footer-social-icons">
                 <a href="https://github.com/adriansimonn" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
                     <img src="images/Logos/GitHubLogo.png" alt="GitHub" class="social-icon">

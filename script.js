@@ -64,7 +64,43 @@ document.addEventListener('DOMContentLoaded', function() {
         item.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
         observer.observe(item);
     });
+
+    // Image carousel functionality
+    const carouselImages = document.querySelectorAll('.carousel-image');
+    const prevButton = document.querySelector('.carousel-arrow-left');
+    const nextButton = document.querySelector('.carousel-arrow-right');
+    
+    if (carouselImages.length > 0 && prevButton && nextButton) {
+        let currentIndex = 0;
+        
+        function showImage(index) {
+            carouselImages.forEach((img, i) => {
+                if (i === index) {
+                    img.classList.add('active');
+                } else {
+                    img.classList.remove('active');
+                }
+            });
+        }
+        
+        function nextImage() {
+            currentIndex = (currentIndex + 1) % carouselImages.length;
+            showImage(currentIndex);
+        }
+        
+        function prevImage() {
+            currentIndex = (currentIndex - 1 + carouselImages.length) % carouselImages.length;
+            showImage(currentIndex);
+        }
+        
+        nextButton.addEventListener('click', nextImage);
+        prevButton.addEventListener('click', prevImage);
+        
+        // Initialize: show first image
+        showImage(0);
+    }
 });
+
 
 
 

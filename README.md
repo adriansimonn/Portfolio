@@ -1,6 +1,6 @@
 # Portfolio Website
 
-A modern, minimal portfolio website inspired by ZARA's clean aesthetic. Built with HTML, CSS, and JavaScript.
+A modern, minimal portfolio website built with the vanilla web stack (HTML, CSS, and JavaScript).
 
 ## Features
 
@@ -8,13 +8,12 @@ A modern, minimal portfolio website inspired by ZARA's clean aesthetic. Built wi
 - **Magazine Style**: Professional layout with ample whitespace
 - **Responsive**: Works seamlessly on desktop, tablet, and mobile devices
 - **Easy Navigation**: Simple top navigation bar with clear page structure
-- **Information-Rich Homepage**: Comprehensive about me section with professional details
 
 ## Pages
 
 - **Home** (`index.html`): About me section with split layout (image and text)
 - **Experience** (`experiences.html`): Professional experience and education
-- **Work** (`work.html`): Projects, publications, and open source contributions
+- **Work** (`work.html`): Projects, publications, and work samples
 - **Blog** (`blog.html`): Blog posts and articles
 
 ## Browser Support
