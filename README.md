@@ -16,13 +16,6 @@ A modern, minimal portfolio website built with the vanilla web stack (HTML, CSS,
 - **Work** (`work.html`): Projects, publications, and work samples
 - **Blog** (`blog.html`): Blog posts and articles
 
-## Browser Support
-
-- Chrome (latest)
-- Firefox (latest)
-- Safari (latest)
-- Edge (latest)
-
 ## License
 
 This project is open source and available for personal use.
