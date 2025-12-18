@@ -66,42 +66,46 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // Image carousel functionality
-    const carouselImages = document.querySelectorAll('.carousel-image');
-    const prevButton = document.querySelector('.carousel-arrow-left');
-    const nextButton = document.querySelector('.carousel-arrow-right');
-    
-    if (carouselImages.length > 0 && prevButton && nextButton) {
+    document.querySelectorAll('.image-carousel').forEach(carousel => {
+        const images = carousel.querySelectorAll('.carousel-image');
+        const prevBtn = carousel.querySelector('.carousel-arrow-left');
+        const nextBtn = carousel.querySelector('.carousel-arrow-right');
+
         let currentIndex = 0;
-        
+
         function showImage(index) {
-            carouselImages.forEach((img, i) => {
-                if (i === index) {
-                    img.classList.add('active');
-                } else {
-                    img.classList.remove('active');
+            images.forEach((img, i) => {
+                const isActive = i === index;
+                img.classList.toggle('active', isActive);
+                
+                // Handle video playback
+                if (img.tagName === 'VIDEO') {
+                    if (isActive) {
+                        // Reset video to start and play
+                        img.currentTime = 0;
+                        const playPromise = img.play();
+                        if (playPromise !== undefined) {
+                            playPromise.catch(e => {
+                                console.log('Video autoplay prevented:', e);
+                            });
+                        }
+                    } else {
+                        img.pause();
+                    }
                 }
             });
         }
-        
-        function nextImage() {
-            currentIndex = (currentIndex + 1) % carouselImages.length;
+
+        nextBtn.addEventListener('click', () => {
+            currentIndex = (currentIndex + 1) % images.length;
             showImage(currentIndex);
-        }
-        
-        function prevImage() {
-            currentIndex = (currentIndex - 1 + carouselImages.length) % carouselImages.length;
+        });
+
+        prevBtn.addEventListener('click', () => {
+            currentIndex = (currentIndex - 1 + images.length) % images.length;
             showImage(currentIndex);
-        }
-        
-        nextButton.addEventListener('click', nextImage);
-        prevButton.addEventListener('click', prevImage);
-        
-        // Initialize: show first image
+        });
+
         showImage(0);
-    }
+    });
 });
-
-
-
-
-
