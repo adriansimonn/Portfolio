@@ -225,8 +225,8 @@ header {
 
 .specialization {
     font-family: 'Didot', 'Helvetica Now Text', 'Arial', Sans-Serif;
-    font-size: 18px;
-    font-weight: 400;
+    font-size: 20px;
+    font-weight: 600;
     color: var(--text-gray);
     margin-top: 5px;
 }
