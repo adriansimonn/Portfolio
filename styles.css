@@ -47,7 +47,8 @@ header {
     font-weight: 700;
 }
 
-.logo a {
+.logo a,
+.logo a:visited {
     text-decoration: none;
     color: inherit;
 }
