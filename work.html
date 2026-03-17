@@ -30,31 +30,30 @@
         <h1 class="page-title">Work</h1>
 
         <div class="section">
-            <h2 class="section-title">Publications</h2>
-
             <div class="item">
-                <div class="item-title">Semantic Convergence: Investigating Shared Representations Across Scaled LLMs</div>
-                <div class="item-subtitle">ACL 2025</div>
-                <div class="item-date">June 2025</div>
+                <div class="item-title">Ozera</div>
+                <div class="item-subtitle">Full-Stack Web Application</div>
+                <div class="item-date">March 2026</div>
                 <div class="item-description">
-                    Research paper analyzing & quantifying LLM feature universality using SVCCA & RSA metrics and a sparse autoencoder
-                    dictionary-learning pipeline trained on Google Gemma 2-2B and Gemma 2-9B residual-stream activations.
-                    Unveiled novel results of mid-layer similarity and multi-token subspace similarity. Implemented feedback from Stanford and Berkeley Ph.D. reviewers and a Meta researcher.
-                    Presented findings at ACL 2025 in Vienna, Austria: <a href="https://scholar.google.com/citations?view_op=top_venues&hl=en&vq=eng_computationallinguistics" target="_blank">the #1 ranked conference in the world for natural language processing/computational linguistics.</a>
+                    Ozera is a platform for visualizing and running experiments on internal mechanics of large language models in real time.
+                    Users submit prompts and explore layer-by-layer activations, attention patterns, logit distributions, and 3D embedding spaces
+                    across both custom-trained and open-source models. The platform includes activation patching, sparse autoencoder analysis,
+                    and side-by-side model comparisons to support interpretability research.
+                    The frontend is built with React, TypeScript, and Vite, using D3, Plotly, and Three.js for interactive visualizations,
+                    and is deployed on Vercel. The backend is a FastAPI service hosted on Railway that orchestrates inference requests to
+                    serverless GPU workers on Modal, capturing activations at every transformer layer during generation. Authentication, database, and
+                    payments are handled through Supabase and Stripe, with a credit-based system gating access to GPU compute on T4 and A10G instances.
                 </div>
                 <div class="item-tags">
-                    <span class="tag">Research</span>
-                    <span class="tag">Large Language Models</span>
-                    <span class="tag">Mech Interp</span>
-                    <span class="tag">SAEs</span>
-                    <span class="tag">NLP</span>
+                    <span class="tag">Python</span>
+                    <span class="tag">TypeScript</span>
+                    <span class="tag">React</span>
+                    <span class="tag">Modal</span>
+                    <span class="tag">FastAPI</span>
+                    <span class="tag">Stripe</span>
                 </div>
-                <a href="https://www.arxiv.org/pdf/2507.22918" target="_blank" class="item-link">Read Paper</a>
+                <a href="https://www.ozera.app" target="_blank" class="item-link">View Demo</a>
             </div>
-        </div>
-
-        <div class="section">
-            <h2 class="section-title">Projects</h2>
 
             <div class="item">
                 <div class="item-title">Enfora</div>
@@ -80,6 +79,26 @@
                 </div>
                 <a href="https://www.enfora.app" target="_blank" class="item-link">View Demo</a>
                 <a href="https://github.com/adriansimonn/Enfora" target="_blank" class="item-link">GitHub Repository</a>
+            </div>
+
+            <div class="item">
+                <div class="item-title">Semantic Convergence: Investigating Shared Representations Across Scaled LLMs</div>
+                <div class="item-subtitle">ACL 2025</div>
+                <div class="item-date">June 2025</div>
+                <div class="item-description">
+                    Research paper analyzing & quantifying LLM feature universality using SVCCA & RSA metrics and a sparse autoencoder
+                    dictionary-learning pipeline trained on Google Gemma 2-2B and Gemma 2-9B residual-stream activations.
+                    Unveiled novel results of mid-layer similarity and multi-token subspace similarity. Implemented feedback from Stanford and Berkeley Ph.D. reviewers and a Meta researcher.
+                    Presented findings at ACL 2025 in Vienna, Austria: <a href="https://scholar.google.com/citations?view_op=top_venues&hl=en&vq=eng_computationallinguistics" target="_blank">the #1 ranked conference in the world for natural language processing/computational linguistics.</a>
+                </div>
+                <div class="item-tags">
+                    <span class="tag">Research</span>
+                    <span class="tag">Large Language Models</span>
+                    <span class="tag">Mech Interp</span>
+                    <span class="tag">SAEs</span>
+                    <span class="tag">NLP</span>
+                </div>
+                <a href="https://www.arxiv.org/pdf/2507.22918" target="_blank" class="item-link">Read Paper</a>
             </div>
 
             <div class="item">
