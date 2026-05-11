@@ -14,4 +14,4 @@ A modern, minimal portfolio website built with the vanilla web stack (HTML, CSS,
 - **Home** (`index.html`): About me section with split layout (image and text)
 - **Experience** (`experiences.html`): Professional experience and education
 - **Work** (`work.html`): Projects, publications, and work samples
-- **Blog** (`blog.html`): Blog posts and articles
+- **Writing** (`writing.html`): Writing posts and articles

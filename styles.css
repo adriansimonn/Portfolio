@@ -288,7 +288,7 @@ footer {
     object-fit: contain;
 }
 
-/* Page Styles (for experiences, work, blog) */
+/* Page Styles (for experiences, work, writing) */
 .page-container {
     margin-top: 100px;
     min-height: calc(100vh - 100px);
@@ -315,7 +315,7 @@ footer {
 }
 
 .section-title,
-.blog-section-title {
+.writing-section-title {
     font-family: var(--font-didot);
     font-size: 32px;
     font-weight: 700;
@@ -327,7 +327,7 @@ footer {
     margin-bottom: 30px;
 }
 
-.blog-section-title {
+.writing-section-title {
     margin-top: 50px;
     margin-bottom: 25px;
 }
@@ -406,7 +406,7 @@ footer {
 }
 
 .item-tags,
-.blog-post-tags {
+.writing-post-tags {
     display: flex;
     flex-wrap: wrap;
     gap: 10px;
@@ -454,13 +454,13 @@ footer {
     border-bottom-color: var(--hover-gray);
 }
 
-/* Blog Post Styles */
-.blog-post {
+/* Writing Post Styles */
+.writing-post {
     max-width: 900px;
     margin: 0 auto;
 }
 
-.blog-post-header {
+.writing-post-header {
     margin-bottom: -20px;
 }
 
@@ -477,7 +477,7 @@ footer {
     color: var(--primary-black);
 }
 
-.blog-post-title {
+.writing-post-title {
     font-family: var(--font-didot);
     font-size: 48px;
     font-weight: 700;
@@ -485,14 +485,14 @@ footer {
     line-height: 1.2;
 }
 
-.blog-post-meta {
+.writing-post-meta {
     display: flex;
     gap: 20px;
     align-items: center;
     margin-bottom: 30px;
 }
 
-.blog-post-subtitle {
+.writing-post-subtitle {
     font-size: 14px;
     font-weight: 500;
     color: var(--hover-gray);
@@ -500,21 +500,21 @@ footer {
     letter-spacing: 1px;
 }
 
-.blog-post-date {
+.writing-post-date {
     font-size: 14px;
     font-weight: 300;
     color: var(--hover-gray);
 }
 
-.blog-post-content {
+.writing-post-content {
     margin-bottom: 60px;
 }
 
-.blog-post-body {
+.writing-post-body {
     margin-top: 40px;
 }
 
-.blog-text {
+.writing-text {
     font-family: var(--font-didot);
     font-size: 18px;
     line-height: 1.8;
@@ -523,17 +523,17 @@ footer {
     text-align: justify;
 }
 
-.blog-text a {
+.writing-text a {
     color: #0056D6;
     text-decoration: underline;
     font-weight: 500;
 }
 
-.blog-text a:hover {
+.writing-text a:hover {
     color: #003EA8;
 }
 
-.blog-post-footer {
+.writing-post-footer {
     margin-top: 60px;
     padding-top: 40px;
     border-top: 1px solid var(--border-gray);
@@ -588,7 +588,7 @@ footer {
     }
 
     .section-title,
-    .blog-section-title {
+    .writing-section-title {
         font-size: 24px;
     }
 
@@ -601,11 +601,11 @@ footer {
         gap: 20px;
     }
 
-    .blog-post-title {
+    .writing-post-title {
         font-size: 36px;
     }
 
-    .blog-text {
+    .writing-text {
         font-size: 16px;
     }
 
@@ -649,15 +649,15 @@ footer {
         gap: 15px;
     }
 
-    .blog-post-title {
+    .writing-post-title {
         font-size: 28px;
     }
 
-    .blog-section-title {
+    .writing-section-title {
         font-size: 20px;
     }
 
-    .blog-text {
+    .writing-text {
         font-size: 15px;
     }
 
