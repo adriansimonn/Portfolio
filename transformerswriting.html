@@ -9,6 +9,181 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Corinthia:wght@400;700&display=swap" rel="stylesheet">
     <link rel="icon" href="/images/favicon.png" type="image/png">
+    <style>
+        /* Page-specific components for this post */
+        .tf-figure {
+            width: 100%;
+            min-width: 0;
+            text-align: center;
+        }
+
+        .tf-caption {
+            font-size: 0.8em;
+            color: #888;
+            margin-top: 8px;
+        }
+
+        .tf-list {
+            font-family: var(--font-didot);
+            font-size: 18px;
+            line-height: 1.8;
+            color: var(--text-gray);
+            margin: 0 0 25px 1.5em;
+        }
+
+        .tf-list li {
+            margin-bottom: 10px;
+            padding-left: 4px;
+        }
+
+        .tf-prompt {
+            font-family: var(--font-didot);
+            font-size: 18px;
+            color: var(--text-gray);
+            margin-bottom: 18px;
+        }
+
+        .tf-tokens {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .tf-token {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 6px 10px;
+            border-radius: 6px;
+            background-color: #EEF1FF;
+        }
+
+        .tf-token:nth-child(5n+2) { background-color: #FFF0E0; }
+        .tf-token:nth-child(5n+3) { background-color: #E6F7EA; }
+        .tf-token:nth-child(5n+4) { background-color: #FDE8EC; }
+        .tf-token:nth-child(5n+5) { background-color: #FFF8D6; }
+
+        .tf-token-text {
+            font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+            font-size: 15px;
+            color: var(--primary-black);
+            white-space: pre;
+        }
+
+        .tf-space {
+            color: #AAA;
+        }
+
+        .tf-token-id {
+            font-size: 12px;
+            color: var(--hover-gray);
+            margin-top: 2px;
+            font-variant-numeric: tabular-nums;
+        }
+
+        .tf-table-wrap {
+            width: 100%;
+            overflow-x: auto;
+        }
+
+        /* Computer Modern (KaTeX build) so the table matches the LaTeX formula images */
+        @font-face {
+            font-family: 'TF Computer Modern';
+            src: url('https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/fonts/KaTeX_Main-Regular.woff2') format('woff2');
+            font-weight: 400;
+            font-style: normal;
+            font-display: swap;
+        }
+
+        @font-face {
+            font-family: 'TF Computer Modern';
+            src: url('https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/fonts/KaTeX_Main-Bold.woff2') format('woff2');
+            font-weight: 700;
+            font-style: normal;
+            font-display: swap;
+        }
+
+        @font-face {
+            font-family: 'TF Computer Modern';
+            src: url('https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/fonts/KaTeX_Math-Italic.woff2') format('woff2');
+            font-weight: 400;
+            font-style: italic;
+            font-display: swap;
+        }
+
+        .tf-table {
+            border-collapse: collapse;
+            margin: 0 auto;
+            font-family: 'TF Computer Modern', 'Latin Modern Roman', 'CMU Serif', 'Times New Roman', serif;
+            font-size: 17px;
+            color: #000;
+            background-color: #FFF;
+        }
+
+        .tf-table th,
+        .tf-table td {
+            padding: 6px 12px;
+            text-align: center;
+            white-space: nowrap;
+            font-weight: 400;
+        }
+
+        .tf-table th[scope="row"] {
+            text-align: left;
+        }
+
+        /* booktabs-style rules: heavy top and bottom, light rule under the header and above the sum */
+        .tf-table thead th {
+            border-top: 2px solid #000;
+            border-bottom: 1px solid #000;
+        }
+
+        .tf-table tbody tr:last-child th,
+        .tf-table tbody tr:last-child td {
+            border-bottom: 2px solid #000;
+        }
+
+        .tf-table .tf-sum th,
+        .tf-table .tf-sum td {
+            border-top: 1px solid #000;
+        }
+
+        .tf-table .tf-sum td {
+            font-weight: 700;
+        }
+
+        .tf-diagram {
+            width: 100%;
+            max-width: 440px;
+            height: auto;
+            display: block;
+            margin: 0 auto;
+        }
+
+        @media (max-width: 768px) {
+            .tf-list,
+            .tf-prompt {
+                font-size: 16px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .tf-list,
+            .tf-prompt {
+                font-size: 15px;
+            }
+
+            .tf-table {
+                font-size: 14px;
+            }
+
+            .tf-table th,
+            .tf-table td {
+                padding: 5px 8px;
+            }
+        }
+    </style>
 </head>
 <body>
     <header>
@@ -47,268 +222,270 @@
                     <h2 class="writing-section-title">Introduction</h2>
 
                     <p class="writing-text">
-                        You've probably asked an AI to write an email or explain a concept and watched it generate a
-                        phenomenally accurate response. But have you ever stopped to wonder: how does it actually do that?
+                        You've probably asked an AI to write an email or explain a concept and watched it produce a surprisingly
+                        good answer in seconds. But have you ever stopped to wonder how it actually does that?
                     </p>
 
                     <p class="writing-text">
-                        Under the hood of nearly every modern AI language model like ChatGPT, Claude, Gemini, and Grok, is a
-                        single architectural idea called the <strong>transformer</strong>. Introduced in an infamous 2017 paper titled
-                        <a href="https://arxiv.org/pdf/1706.03762" target="_blank">"Attention Is All You Need"</a>, the transformer quietly became the foundation of one of the most
-                        significant technological shifts in recent history.
+                        Under the hood of nearly every modern large language model (LLM) like ChatGPT, Claude, Grok,
+                        and Gemini, is an architecture called the <strong>transformer</strong>. It was introduced in the landmark 2017 paper
+                        <a href="https://arxiv.org/pdf/1706.03762" target="_blank">"Attention Is All You Need"</a>, and it quietly became
+                        the foundation of one of the most significant technological shifts in recent history.
                     </p>
 
                     <p class="writing-text">
-                        What seems like magic on the surface is in reality an extremely elegant system built from a handful
-                        of clever mathematical ideas stacked on top of each other. In this post, I'll walk through each of those ideas and try to
-                        explain them in an intuitive and understandable way. By the end, the next time you hit send on an AI prompt,
-                        you'll have a real sense of what happens next.
+                        What looks like magic on the surface is actually a handful of simple mathematical ideas elegantly stacked on top of
+                        each other. In this post, I'll walk through each of them in an intuitive way. By the end, the next time you hit
+                        send on a prompt, you'll have a real sense of how responses are generated.
                     </p>
 
                     <h2 class="writing-section-title">Background</h2>
 
                     <p class="writing-text">
-                        Before going over the architecture itself, I'll quickly go over its background: why it was created and how it turned into
-                        the standard architecture for LLMs.
+                        To build a strong base understanding, it's important to note that the transformer was originally built to solve a very
+                        specific problem: <strong>translation</strong>.
                     </p>
 
                     <p class="writing-text">
-                        Believe it or not, the transformer was originally built to solve a very specific problem: <strong>translation</strong>.
+                        Before transformers, most translation models were recurrent neural networks (RNNs), which read a sentence the way
+                        you might read it out loud: one word at a time, carrying a running memory of what they'd seen so far. This had two
+                        big problems. First, that memory faded, so by the end of a long sentence the model had partly forgotten the
+                        beginning. Second, reading one word at a time meant the work couldn't be done in parallel, which made RNNs slow
+                        to train on large amounts of text.
                     </p>
 
                     <p class="writing-text">
-                        Before transformers, AI translation models processed language the way you might read a sentence out loud:
-                        one word at a time, in order. These models (called RNNs) would read a sentence and then start to forget the first
-                        few words of the sentence when approaching the last word. Translating long, complex sentences was a constant uphill battle against fading memory.
+                        Researchers had already improved RNNs with a mechanism called <strong>attention</strong>, which let the model look
+                        directly at any earlier word instead of relying only on its fading memory. The transformer's big idea is right there
+                        in the paper's title: drop the recurrence entirely and build the model out of attention. A transformer looks at every
+                        word at once, so nothing fades, and it can process all of them in parallel on GPUs. That second point turned out to
+                        matter enormously. Because transformers train efficiently at massive scale, they could learn from far more text than
+                        any model before them, and they turned out to be good at almost every language task rather than being limited to just translation.
                     </p>
 
                     <p class="writing-text">
-                        This is where the transformer comes in with a completely different approach. Rather than reading sequentially,
-                        it looks at all the words in a sentence at the same time, and relies heavily on a special mechanism called attention.
-                        This architecture turned out to be extraordinarily powerful, and not just for translation. Researchers quickly
-                        realized that the same mechanism for turning an input sequence into an output sequence could be applied to almost
-                        any language task like summarization, question answering, chatting, and more.
+                        The original transformer had two halves: an <strong>encoder</strong> that read the source sentence, and a
+                        <strong>decoder</strong> that wrote the translation. Modern LLMs actually only keep the decoder. What's left
+                        is a single stack of layers with one critical job: given some text, predict the next token (roughly, the next word). To write
+                        a response, the model predicts one token, adds it to the text, and repeats.
                     </p>
 
                     <p class="writing-text">
-                        In short, a transformer is an input to output machine. You give it a sequence (prompt) and it produces
-                        a new sequence (output) in response. Everything I'll cover in this post revolves around this one idea:
-                        transforming your input prompt into a generated output.
+                        That decoder-only model is what this post walks through. For each component, I'll explain the version from the original
+                        paper, since it's the simplest to understand, and briefly note where today's models do things differently.
                     </p>
 
                     <h2 class="writing-section-title">Tokenization</h2>
 
                     <p class="writing-text">
-                        Let's start our journey into the transformer with your prompt.
-                        Before a transformer can do anything with your prompt, it needs to solve a very fundamental problem:
-                        <strong>computers don't understand words, they understand numbers</strong>. Tokenization is the process of
-                        converting raw text into a form the model can actually work with.
+                        Let's start our journey with your prompt. Before a transformer can do anything with it, it needs to solve a very
+                        fundamental problem: <strong>computers don't understand words, they understand numbers</strong>. Tokenization turns
+                        your text into numbers by breaking it into small chunks called <strong>tokens</strong> and giving each one an integer ID.
                     </p>
 
                     <p class="writing-text">
-                        During tokenization, your text gets broken into small chunks called tokens. A token isn't exactly a word,
-                        it's rather a piece of a word. The sentence "The transformer is fascinating" might get split into tokens like:
-                        ["The", " transform", "er", " is", " fascin", "ating"]. Short, common words like "the" or "is" usually get
-                        their own token. Longer or rarer words get broken into pieces.
-                    </p>
-
-                    <p class="writing-text">
-                        Every token is assigned a unique integer ID from a fixed vocabulary (a table built during training that maps tokens to IDs).
-                        "The" might be token 31, "transform" might be 8529, and so on. Your entire prompt becomes a simple
-                        list of numbers: [31, 8529, 480, ...].
+                        A token is often a whole word, but not always. Here's how the tokenizer used by GPT-4o actually splits a short prompt:
                     </p>
 
                     <div class="image-section">
-                        <img src="images/WritingImages/transformerswriting/tokenization.png" alt="Tokenization" style="max-width: 60%; display: block; margin: 0 auto;">
+                        <div class="tf-figure">
+                            <p class="tf-prompt">"Why are transformers so unreasonably effective?"</p>
+                            <div class="tf-tokens">
+                                <div class="tf-token"><span class="tf-token-text">Why</span><span class="tf-token-id">13903</span></div>
+                                <div class="tf-token"><span class="tf-token-text"><span class="tf-space">·</span>are</span><span class="tf-token-id">553</span></div>
+                                <div class="tf-token"><span class="tf-token-text"><span class="tf-space">·</span>transformers</span><span class="tf-token-id">152728</span></div>
+                                <div class="tf-token"><span class="tf-token-text"><span class="tf-space">·</span>so</span><span class="tf-token-id">813</span></div>
+                                <div class="tf-token"><span class="tf-token-text"><span class="tf-space">·</span>un</span><span class="tf-token-id">537</span></div>
+                                <div class="tf-token"><span class="tf-token-text">reason</span><span class="tf-token-id">42743</span></div>
+                                <div class="tf-token"><span class="tf-token-text">ably</span><span class="tf-token-id">4235</span></div>
+                                <div class="tf-token"><span class="tf-token-text"><span class="tf-space">·</span>effective</span><span class="tf-token-id">8488</span></div>
+                                <div class="tf-token"><span class="tf-token-text">?</span><span class="tf-token-id">30</span></div>
+                            </div>
+                            <p class="tf-caption">Real output from GPT-4o's tokenizer (o200k_base). A · marks a space; most tokens include the space before the word.</p>
+                        </div>
                     </div>
 
                     <p class="writing-text">
-                        The vocabulary is built using an algorithm called Byte Pair Encoding (BPE).
-                        It starts with individual characters, then repeatedly merges the most frequently appearing pairs until
-                        it reaches a target vocabulary size (usually 50,000 - 100,000 tokens). The result is a vocabulary that is
-                        compact but expressive. Common words get single tokens, while rare words get decomposed into familiar parts.
+                        Common words like "are" and "effective" each get a single token, while the less common "unreasonably" is split into
+                        "un", "reason", and "ably". Your entire prompt becomes a simple list of numbers: [13903, 553, 152728, ...].
                     </p>
 
                     <p class="writing-text">
-                        So why does this work? Tokenization works because language is deeply repetitive at the sub-word level.
-                        The fragments "ing," "tion," "un-," "re-" appear across thousands of words. By breaking text into these
-                        natural pieces, the model can handle words it's technically never seen before by recognizing their parts,
-                        much like how you can make a reasonable guess at the meaning of a word even if you've never encountered it.
-                        Also, BPE keeps the size of an LLM's vocabulary manageable while preserving enough detail to handle creative
-                        spelling, code, foreign words, and everything in between. 
+                        The full list of tokens a model knows is called its <strong>vocabulary</strong>. It's built before the model itself
+                        is trained, usually with an algorithm called Byte Pair Encoding (BPE). BPE starts with individual characters
+                        and repeatedly merges the most frequent pair of neighboring tokens into a new token, until the vocabulary reaches
+                        a target size. Modern vocabularies range from tens of thousands to a couple hundred thousand tokens.
                     </p>
 
                     <p class="writing-text">
-                        Once your prompt is a list of token IDs, it's ready for the next step: giving those numbers meaning.
+                        So why does this work? Language is deeply repetitive below the word level. Pieces like "un", "ing", and "tion" show
+                        up in thousands of words, so the model can handle a word it has rarely or never seen by recognizing its parts. And
+                        because everything can be broken down into smaller pieces, the vocabulary stays a manageable size while still handling
+                        typos, code, foreign words, and everything in between.
                     </p>
 
                     <h2 class="writing-section-title">Embeddings</h2>
 
                     <p class="writing-text">
-                        We now have our prompt as a list of token IDs. The problem is, these numbers are essentially labels.
-                        The model needs a way to turn these arbitrary IDs into something that actually captures meaning. That's what embeddings do.
+                        Now that your prompt is a list of Token IDs that are essentially meaningless labels, the model now needs a way
+                        to turn these arbitrary IDs into something that captures meaning. This is what embeddings do.
                     </p>
 
                     <p class="writing-text">
-                        An embedding transforms each token ID into a <a href="https://www.youtube.com/watch?v=fNk_zzaMoSs" target="_blank">vector</a>
-                        : a list of thousands of numbers. Just like how vectors of a 3D graph contain 3 numbers
-                        that point to a certain point in a 3D space, the vector embeddings that your token IDs turn into point to a certain point
-                        in a high-dimensional space with thousands of dimensions. These vectors encode something about what that token means.
-                        Think of it like giving each word a location in a vast, high-dimensional space. Words with similar meanings end up near
-                        each other in that space. "King" and "Queen" are close. "Cat" and "feline" are close. "Cat" and "rocket" are far apart.
+                        An embedding turns each token ID into a <a href="https://www.youtube.com/watch?v=fNk_zzaMoSs" target="_blank">vector</a>:
+                        a long list of numbers (512 in the original transformer, and thousands in today's large models). Just like a vector with
+                        3 numbers points to a location in 3D space, an embedding points to a location in a space with thousands of dimensions.
+                        During training, the model learns where to place each token's embedding so that tokens with similar meanings end up near
+                        each other in this high dimensional space. For example, "cat" and "feline" are close, while "cat" and "rocket" are far apart.
                     </p>
 
                     <p class="writing-text">
-                        This spatial relationship is what lets the model reason about language. Instead of working with meaningless IDs,
-                        it's now working with numerical representations that carry actual meaning. Here is a famous example of this spatial relationship:
-                        if you take the difference vector between the vectors for "woman" and "man", it is remarkably similar to the difference
-                        vector between the vectors for "queen" and "king".
+                        Directions in this space can carry meaning too. Here's a famous example: the difference between the vectors for "woman"
+                        and "man" is remarkably similar to the difference between the vectors for "queen" and "king".
                     </p>
 
                     <div class="image-section">
-                        <div style="display: block; text-align: center;">
-                            <img src="images/WritingImages/transformerswriting/vectorexample.png" alt="Vector Example" style="max-width: 70%;">
-                            <p style="font-size: 0.8em; color: #888; margin-top: 4px;">Credit: 3blue1brown</p>
+                        <div class="tf-figure">
+                            <img src="images/WritingImages/transformerswriting/vectorexample.png" alt="The difference between queen and king is similar to the difference between woman and man" style="max-width: 70%;">
+                            <p class="tf-caption">Credit: 3blue1brown</p>
                         </div>
                     </div>
 
                     <p class="writing-text">
-                        This indicates that during training, the embeddings are chosen so that one direction in this high-dimensional space encodes
-                        gender information. With all of the possible directions in such a high-dimensional space, it's no wonder that LLMs are able to
-                        encode so much information as relationships between vectors.
+                        In other words, some direction in the space has come to encode something like gender. With thousands of dimensions to
+                        work with, the model can encode many relationships at once like topic, tone, grammatical role, and much more.
+                        These relationships are learned during training, as words used in similar contexts tend to have similar meanings, and training on
+                        huge amounts of text pushes them toward similar vectors.
                     </p>
 
                     <p class="writing-text">
-                        The math behind the embedding layer is simple. At its core, an embedding layer is a large lookup table:
-                        a matrix of shape [vocabulary size x embedding dimension]. For each token ID, the model simply retrieves the corresponding
-                        row from this matrix. If the vocabulary has 50,000 tokens and the embedding dimension is 512, that's a matrix of 50,000
-                        rows and 512 columns, where each row is the vector representation of one token.
+                        The math behind the embedding layer is simple. It's a big lookup table: a matrix with one row per token in the vocabulary.
+                        With a 50,000-token vocabulary and 512-dimensional embeddings, that's a 50,000 × 512 matrix, and converting a token ID into
+                        its embedding just means grabbing that row. The values of the matrix start out random and get adjusted during training.
                     </p>
 
                     <p class="writing-text">
-                        So why do embeddings even work? Embeddings work because meaning in language is largely defined by context.
-                        Words that appear in similar sentences tend to mean related things, so by training on vast amounts of text,
-                        the model implicitly learns these relationships and bakes them into the geometry of the embedding space.
-                    </p>
-
-                    <p class="writing-text">
-                        The high dimensionality of these vectors is also crucial. With a high number of dimensions, the space is
-                        rich enough to encode many different types of similarity simultaneously (such as grammatical role, topic,
-                        sentiment, formality, etc) without any of them interfering with each other.
-                    </p>
-
-                    <p class="writing-text">
-                        At the end of this step, every token in your prompt has been transformed from a flat ID into a meaningful vector.
-                        The model now has something it can genuinely reason with, but there's one thing still missing. Remember when I mentioned
-                        that transformers read all of your prompt at the same time rather than sequentially? Because of this, it has no idea what
-                        order those tokens came in. That's the next problem to solve.
+                        There's one important limitation at this stage: a token always gets the same embedding, no matter what's around it.
+                        "Bank" has one vector whether the sentence is about a river or a savings account. Letting each token absorb context
+                        from the rest of the text is the job of attention. But first, the model needs to know what order the tokens are in.
                     </p>
 
                     <h2 class="writing-section-title">Positional Encoding</h2>
 
                     <p class="writing-text">
-                        At this point, every token in your prompt is a rich, meaningful vector. But if you handed those vectors to the transformer
-                        with no other information, it would have no idea whether the prompt says "dog bites man" or "man bites dog", since they both
-                        have the same tokens. Processing tokens in parallel
-                        removes any order-related information that the prompt contains. Positional encoding is how we put it back in.
+                        Attention, which we'll get to next, works by comparing tokens with each other all at once. That's what makes it fast,
+                        but nothing in that math says which token came first. To attention on its own, "dog bites man" and "man bites dog"
+                        are identical because they contain exactly the same three tokens. Positional encoding puts the order back in by adding a position signal to
+                        each token's embedding.
                     </p>
 
                     <p class="writing-text">
-                        Positional encoding adds a small signal to each token's embedding that encodes its position in the sequence.
-                        The first token gets a nudge in one direction, the second token gets a slightly different nudge, the third another, and so on.
-                        The embedding itself stays intact, we're just augmenting it with a layer of positional information.
-                    </p>
-
-                    <p class="writing-text">
-                        After this step, two identical words in different positions will have slightly different vector representations,
-                        which gives the model everything it needs to distinguish "dog bites man" from "man bites dog".
-                    </p>
-
-                    <p class="writing-text">
-                        Let's take a look at the math behind positional encoding. Essentially, a positional vector is added to the
-                        original embedding vector to encode the position of the token into the embedding. Each value of the
-                        positional vector is calculated element by element using the position of the token and the current dimension index
-                        using this formula:
+                        In the original paper, that signal is a vector the same size as the embedding, built from sine and cosine waves:
                     </p>
 
                     <div class="image-section">
-                        <img src="images/WritingImages/transformerswriting/peformula.png" alt="Traditional Positional Encoding Formula" style="max-width: 80%; display: block; margin: 0 auto;">
+                        <img src="images/WritingImages/transformerswriting/peformula.png" alt="Sinusoidal Positional Encoding Formula" style="max-width: 80%; display: block; margin: 0 auto;">
                     </div>
 
                     <p class="writing-text">
-                        where pos is the token's position in the sequence/prompt, i is the dimension index, and d is the embedding size of the model.
-                        The even dimensions formula is used when i is even, and the odd dimensions formula is used when i is odd.
-                        The result is a positional vector with a wave-like pattern for each embedding. This positional vector is then added
-                        directly to the original token's embedding. Here is a simple example:
+                        Here, <em>pos</em> is the token's position in the sequence (counting from 0) and <em>d</em> is the embedding size.
+                        The dimensions are grouped into pairs, and <em>i</em> counts the pairs: pair <em>i</em> covers dimensions 2<em>i</em>
+                        and 2<em>i</em> + 1. The even dimension of each pair uses sine, the odd one uses cosine, and both use the same frequency.
+                        The first pairs oscillate quickly as the position increases, while later pairs change very slowly, a bit like the second,
+                        minute, and hour hands on a clock. Here's a worked example using a tiny embedding size of 6:
                     </p>
 
                     <div class="image-section">
-                        <div style="display: block; text-align: center;">
-                            <img src="images/WritingImages/transformerswriting/pevisual.png" alt="Positional Encoding Simple Example" style="max-width: 100%;">
-                            <p style="font-size: 0.8em; color: #888; margin-top: 4px;">The positional vector is simplified in this example - rounded to 3 decimal places</p>
+                        <div class="tf-figure">
+                            <div class="tf-table-wrap">
+                                <table class="tf-table">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col"></th>
+                                            <th scope="col">Dim 0</th>
+                                            <th scope="col">Dim 1</th>
+                                            <th scope="col">Dim 2</th>
+                                            <th scope="col">Dim 3</th>
+                                            <th scope="col">Dim 4</th>
+                                            <th scope="col">Dim 5</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <th scope="row">Pair (<em>i</em>)</th>
+                                            <td>0</td><td>0</td><td>1</td><td>1</td><td>2</td><td>2</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">Formula</th>
+                                            <td>sin(3 / 1)</td><td>cos(3 / 1)</td><td>sin(3 / 21.5)</td><td>cos(3 / 21.5)</td><td>sin(3 / 464)</td><td>cos(3 / 464)</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">Positional vector</th>
+                                            <td>0.141</td><td>−0.990</td><td>0.139</td><td>0.990</td><td>0.006</td><td>1.000</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">+ Token embedding</th>
+                                            <td>0.62</td><td>−1.35</td><td>0.18</td><td>0.91</td><td>−0.44</td><td>1.07</td>
+                                        </tr>
+                                        <tr class="tf-sum">
+                                            <th scope="row">= Final vector</th>
+                                            <td>0.761</td><td>−2.340</td><td>0.319</td><td>1.900</td><td>−0.434</td><td>2.070</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <p class="tf-caption">A token at position 3 with d = 6. The embedding values are made up; the positional values are exact, rounded to 3 decimals.</p>
                         </div>
                     </div>
 
                     <p class="writing-text">
-                        Modern models often replace this fixed formula with learned positional embeddings rotary positional embeddings.
-                        This article focuses on the original transformer architecture so I won't be covering any other methods.
-                        While sinusoidal positional encoding isn't as optimal for scale, it is still works efficiently. But why does this work?
+                        Notice how the first pair swings widely, while the last pair has barely moved from (0, 1). The positional vector is added
+                        directly to the token's embedding, so the result still carries the token's meaning, but now it carries its position too.
+                        The same word at two different positions ends up with slightly different vectors.
                     </p>
 
                     <p class="writing-text">
-                        The sine and cosine functions were chosen deliberately. Because they're periodic and smooth, nearby positions produce
-                        similar encodings, while distant positions produce noticeably different ones. This gives the model a natural sense of proximity.
-                        It can tell not just that two tokens are in different positions, but roughly how far apart they are. There is also another
-                        elegant property: the relationship between any two positions is consistent regardless of where they appear in the sequence.
-                        Position 1 and position 2 are just as close as position 101 and position 102. This consistency helps the model generalize
-                        to sequences of different lengths.
+                        So why sine and cosine? Because the waves are smooth, nearby positions get similar encodings, and distant positions get
+                        different ones. There's also a more elegant property: moving from any position to the position <em>k</em> steps later
+                        is the same simple transformation (a rotation of each pair), no matter where in the sequence you start. That makes it
+                        easy for the model to learn patterns like "the word two positions back" that work anywhere in the text.
                     </p>
 
                     <p class="writing-text">
-                        With positional encoding applied, each token's vector now carries two things at once: what it means, and where it sits.
-                        That's everything the transformer needs to start doing the real work.
+                        Modern models have mostly moved on from this exact formula. GPT-2 and GPT-3 learned their position vectors during training,
+                        and most recent open models use rotary positional embeddings (RoPE), which apply position inside the attention
+                        step instead of adding it to the embedding. The goal is the same: give the model a sense of order.
                     </p>
 
-                    <h2 class="writing-section-title">Attention Mechanism</h2>
+                    <h2 class="writing-section-title">Attention</h2>
 
                     <p class="writing-text">
-                        Each token in your prompt now carries a rich vector encoding both its meaning and its position. The next question is:
-                        what does the transformer actually do with those vectors? The answer is attention, and it's the most important idea
-                        in this entire architecture.
-                    </p>
-
-                    <p class="writing-text">
-                        Think about how you read this sentence: "The animal didn't cross the street because it was too tired". When you reach
-                        the word "it", your brain immediately reaches back through the sentence and connects it to "animal", not "street".
-                        You did that effortlessly because you understand context and know which words are relevant to each other.
-                        Attention is the mechanism that gives the transformer the exact same ability, the ability to know which words are relevant
-                        to each other.
+                        Each token now has a vector encoding its meaning and its position. Attention is how each token gathers context from the
+                        rest of the text, and it's the most important idea in the entire architecture.
                     </p>
 
                     <p class="writing-text">
-                        For every token in your prompt, attention asks a simple question: which other tokens in this sequence are most relevant
-                        to understanding me? It then lets each token look at every other token, score how relevant each one is to itself, and blend
-                        their information together accordingly. A token surrounded by context that matters to it pulls in a lot of that context.
-                        A token that's relatively self-contained doesn't. The result is that each token's vector gets updated to reflect
-                        not just what it means on its own, but what it means given everything around it.
+                        Think about this sentence: "The animal didn't cross the street because it was too tired". By the time you reach "tired",
+                        you know "it" means the animal, not the street. To make that connection, your brain subconsciously reached back
+                        and linked "tired", "it", and "animal". Attention gives the model the same ability. For every token, it asks: which of
+                        the tokens so far are relevant to me, and what information should I take from them? Each token's vector is then updated
+                        to reflect what it means in this context rather than just what it means on its own.
                     </p>
 
                     <p class="writing-text">
-                        Now let's look at how this actually works mathematically. The mechanism is called scaled dot product attention,
-                        and it's built around three vectors derived from each token's embedding: a Query (Q), a Key (K), and a Value (V).
+                        To do this, each token's vector is multiplied by three weight matrices, W<sub>Q</sub>, W<sub>K</sub>, and W<sub>V</sub>,
+                        which contain values learned during training. This produces three new vectors per token:
                     </p>
 
+                    <ul class="tf-list">
+                        <li><strong>Query (Q):</strong> what this token is looking for.</li>
+                        <li><strong>Key (K):</strong> what this token advertises about itself, used to check whether it matches someone's query.</li>
+                        <li><strong>Value (V):</strong> the information this token actually passes along if it's deemed relevant.</li>
+                    </ul>
+
                     <p class="writing-text">
-                        The intuition behind these three roles is pretty analogous how a search engine works. The Query is what a token is
-                        looking for. The Key is what a token advertises about itself. The Value is what a token actually contributes if
-                        it's deemed relevant. Every token simultaneously acts as a searcher (Query), a candidate (Key), and a source of
-                        information (Value).
-                    </p>
-                    
-                    <p class="writing-text">
-                        These three vectors are produced by multiplying each token's embedding by three weight matrices:
-                        W<sub>Q</sub>, W<sub>K</sub>, and W<sub>V</sub>, which the model develops during the training process. 
-                        Once we have the Q, K, and V for every token, the attention formula takes over:
+                        It's a lot like a search engine: your query is compared against the keys (like page titles) of every result, and the best
+                        matches decide which content (values) you get back. Once every token has its Q, K, and V, the attention formula takes over:
                     </p>
 
                     <div class="image-section">
@@ -316,295 +493,260 @@
                     </div>
 
                     <p class="writing-text">
-                        Let's break this down step by step. First, we compute QK<sup>T</sup>: the dot product between 
-                        every token's Query and every other token's Key. A <a href="https://www.youtube.com/watch?v=LyGKycYT2v0" target="_blank">dot product</a> is essentially a measure of alignment. 
-                        two vectors that point in similar directions produce a large dot product, while unrelated vectors produce 
-                        a small one. This gives us a matrix of raw relevance scores, one score for every possible pair of tokens in the sequence.
+                        <strong>Step 1: Score.</strong> QK<sup>T</sup> takes the <a href="https://www.youtube.com/watch?v=LyGKycYT2v0" target="_blank">dot product</a>
+                        of every token's query with every token's key. A dot product measures how aligned two vectors are: vectors pointing in
+                        similar directions give a large number, while unrelated ones give something near zero. The result is a grid of relevance
+                        scores, one for every pair of tokens.
                     </p>
 
                     <p class="writing-text">
-                        Next, we divide by √d<sub>k</sub>, where d<sub>k</sub> is the dimensionality (number of elements) of the Key vectors.
-                        This scaling step keeps the dot products from growing too large. In high-dimensional spaces, dot products 
-                        naturally tend toward large magnitudes, and if left unscaled they can push the next step (the softmax) into 
-                        a region where its gradients become vanishingly small, making training unstable. Dividing by √d<sub>k</sub> 
-                        keeps the values in a reasonable range.
+                        <strong>Step 2: Scale.</strong> The scores are divided by √d<sub>k</sub>, where d<sub>k</sub> is the number of dimensions in
+                        each key vector. Dot products get bigger as vectors get longer, and without this step, the next step would put nearly all of
+                        its weight on a single token.
                     </p>
 
                     <p class="writing-text">
-                        Then comes softmax. Softmax converts each token's set of raw relevance scores 
-                        into a proper probability distribution: a set of non-negative probabilities or weights that sum to 1. High scoring pairs get weights 
-                        close to 1, low scoring pairs get weights close to 0. These are the attention weights: a precise, learned answer 
-                        to the question of how much each token should attend to every other.
+                        <strong>Step 3: Softmax.</strong> Softmax turns each token's row of scores into weights that are all positive and add up
+                        to 1. Higher scores get larger weights, and because softmax uses exponentials, the gaps get exaggerated, so the most
+                        relevant tokens dominate.
                     </p>
 
                     <p class="writing-text">
-                        Finally, we multiply these attention weights by V, the Value matrix. This is the payoff step. 
-                        Each token's output becomes a weighted blend of all the Value vectors in the sequence, mixed in proportion to 
-                        the attention weights. Tokens that were deemed highly relevant contribute a lot to the output; irrelevant tokens 
-                        contribute almost nothing.
+                        <strong>Step 4: Blend.</strong> Finally, the weights are multiplied by V. Each token's output is a weighted average of the
+                        value vectors, so the tokens it found most relevant contribute most of the information, and irrelevant ones contribute
+                        almost nothing.
                     </p>
 
                     <p class="writing-text">
-                        There's one more important detail: the transformer doesn't run this process once. It runs it several times in 
-                        parallel, each with its own independently learned W<sub>Q</sub>, W<sub>K</sub>, and W<sub>V</sub> matrices. 
-                        This is called Multi-Head Attention. Each "head" gets to look at the sequence through a different 
-                        lens, learning to track a different type of relationship simultaneously. One head might focus on grammatical 
-                        agreement, another on coreference (like "it" -> "animal"), another on semantic similarity. The outputs of all 
-                        heads are then concatenated and projected back into the original embedding dimension, producing a single 
-                        vector per token that is rich with contextual information.
+                        So why does this work? The model is never told which words relate to which. Instead, training adjusts W<sub>Q</sub> and
+                        W<sub>K</sub> so that related tokens produce queries and keys that align, and W<sub>V</sub> so that the right information
+                        gets passed along. Softmax matters here too: because it produces smooth weights rather than a hard yes or no, small changes
+                        to the weights cause small changes in the output, which is what lets
+                        <a href="https://www.youtube.com/watch?v=Ilg3gGewQ5U" target="_blank">backpropagation</a> improve them gradually.
                     </p>
 
                     <p class="writing-text">
-                        So why does this actually work? The dot product between a Query and a Key is at the heart of it. When two 
-                        tokens are related, their Query and Key vectors (both learned from training data) tend to align in the same 
-                        direction in the vector space. The dot product captures that alignment and converts it into a high relevance score. 
-                        When two tokens have nothing to do with each other, their vectors point in different directions and the score 
-                        stays low. The model doesn't need to be told which tokens are related; it learns to produce Query and Key 
-                        vectors that make the scoring naturally fall out correctly.
-                    </p>
-
-                    <p class="writing-text">
-                        The softmax then acts as a soft, differentiable selector. Rather than making a hard binary choice ("attend to 
-                        this token, ignore that one"), it produces smooth weights across the entire sequence. This matters for training: 
-                        soft selections allow gradients to flow back through the network and update the weight matrices via <a href="https://www.youtube.com/watch?v=Ilg3gGewQ5U" target="_blank">backpropagation</a>, 
-                        which is how the model learns what to attend to in the first place.
-                    </p>
-
-                    <p class="writing-text">
-                        The separation of V from K is also deliberate. The Key vector only needs to be useful for matching 
-                        (signaling "I am relevant to you"). The Value vector is free to encode richer, more expressive information 
-                        that actually gets passed along. Separating these two roles gives the model more flexibility in what it 
-                        advertises versus what it actually contributes.
-                    </p>
-
-                    <p class="writing-text">
-                        After attention, each token's vector has been transformed. It no longer just represents that token in isolation,
-                        it now carries a context-aware summary of the entire prompt, weighted by relevance. The model has, 
-                        in a single layer, done what took sequential models many steps to approximate: read everything and decided 
-                        what matters to what.
-                    </p>
-
-                    <h2 class="writing-section-title">The Encoder</h2>
-
-                    <p class="writing-text">
-                        The original transformer described in <a href="https://arxiv.org/pdf/1706.03762" target="_blank">"Attention Is All You Need"</a>
-                        was built with two halves: an encoder and a decoder.
-                        The encoder's job was to read the input sequence and produce a rich, context-aware representation of it, which the
-                        decoder would then use to generate an output. If you ever read the original paper, you'll encounter this architecture.
-                        However, modern LLMs like GPT, Claude, and Llama have moved away from this design entirely, so I won't be covering it in detail.
-                    </p>
-
-                    <p class="writing-text">
-                        Researchers found that
-                        for generative language tasks, a decoder-only architecture (one that simply predicts the next token given all previous
-                        ones) was simpler, scaled better, and performed just as well. The encoder was dropped, and the decoder became the
-                        whole model. That's what we'll focus on next.
-                    </p>
-                    
-                    <h2 class="writing-section-title">The Decoder</h2>
-
-                    <p class="writing-text">
-                        Everything up to this point: tokenization, embeddings, positional encoding, and attention; has been 
-                        preparation. The decoder is where generation actually happens. It's the engine that produces the 
-                        response you see on your screen.
-                    </p>
-
-                    <p class="writing-text">
-                        The most important thing to understand about how the decoder works is that it doesn't write the entire 
-                        response at once. It generates one token at a time, in a loop. It looks at your 
-                        prompt and everything it has already written, predicts what single token should come next, adds that 
-                        token to the sequence, and then repeats the whole process now with one more token added to the sequence. This 
-                        continues until the response is complete.
-                    </p>
-
-                    <p class="writing-text">
-                        Think of it like a novelist writing a story one word at a time, re-reading everything from the 
-                        beginning before writing each new word. Every word they write is informed by the entire sequence
-                        of words that came before it. The decoder does exactly this in fractions of a second.
-                    </p>
- 
-                    <p class="writing-text">
-                        There's one crucial rule baked into this process: the model is only ever allowed to look 
-                        backwards. When predicting the fifth token, it can see tokens one through four, but not 
-                        six, seven, or anything beyond because those don't exist yet. The model has to make its prediction using 
-                        only the context it would actually have available at that moment.
-                    </p>
-
-                    <p class="writing-text">
-                        Now let's look at the math that makes this happen. The decoder is a stack of identical layers,
-                        modern models can have dozens or even hundreds of them. Each layer has the same two-step structure.
-                    </p>
- 
-                    <p class="writing-text">
-                        The first step is Masked Multi-Head Self-Attention. This is the same attention 
-                        mechanism we covered earlier (Queries, Keys, Values, dot products, softmax), with one addition. 
-                        After computing the raw relevance scores (QK<sup>T</sup>), a mask matrix M is 
-                        added before the softmax step. For every position that corresponds to a future token, M inserts 
-                        a value of −∞. Everywhere else it inserts 0, leaving the scores untouched:
+                        An LLM adds one rule on top of this: a token can only attend to itself and the tokens before it, never the ones after.
+                        This is done by adding a mask M to the scores before the softmax, with 0 for allowed positions and −∞ for future ones:
                     </p>
 
                     <div class="image-section">
                         <img src="images/WritingImages/transformerswriting/maskedattentionformula.png" alt="Masked Attention Formula" style="max-width: 75%; display: block; margin: 0 auto;">
                     </div>
- 
+
                     <p class="writing-text">
-                        Because softmax uses an exponential function, e<sup>−∞</sup> = 0. Any future position masked to −∞ 
-                        contributes exactly zero to the output, it becomes completely invisible to the current token.
+                        Since softmax uses exponentials and e<sup>−∞</sup> = 0, every future token gets exactly zero weight. You'll see why this
+                        rule matters when we get to training.
                     </p>
 
                     <p class="writing-text">
-                        The second step is a Feed-Forward Network, applied independently to each token's 
-                        vector. It works in three simple stages: a linear transformation expands the vector to a larger 
-                        internal size, a ReLU activation introduces non-linearity by zeroing out any 
-                        negative values, and then a second linear transformation compresses it back to the original 
-                        embedding dimension. This gives each token a chance to individually process what it just learned 
-                        from the attention step. Both steps are wrapped in residual connections (which 
-                        add the layer's input directly back to its output as a shortcut) and layer 
-                        normalization (which keeps the values in a stable, well-behaved range).
+                        Finally, the transformer doesn't run attention just once per layer. It runs several copies side by side, each with its own
+                        W<sub>Q</sub>, W<sub>K</sub>, and W<sub>V</sub>. This is called <strong>multi-head attention</strong> (the original paper used 8
+                        heads). Each head can learn to track a different kind of relationship: one might link pronouns to the nouns they refer to,
+                        while another tracks which words describe which. The heads' outputs are combined and multiplied by one more learned matrix,
+                        producing a single updated vector per token.
                     </p>
- 
+
+                    <h2 class="writing-section-title">The Transformer Block</h2>
+
                     <p class="writing-text">
-                        Once the token vectors have passed through all decoder layers, there is one final step: converting 
-                        a vector back into an actual word. The output vector is passed through a linear 
-                        projection that produces one score per token in the entire vocabulary. A final softmax then converts those scores into a probability 
-                        distribution, where every token in the vocabulary gets a probability and all of them sum to 1. 
-                        The next token in the response is then selected from that distribution. Here's a diagram of the 
-                        full decoder layer with this final step included:
+                        Attention is one half of the transformer's basic building block, usually called a <strong>block</strong> or
+                        <strong>layer</strong>. Each block has two steps:
+                    </p>
+
+                    <ol class="tf-list">
+                        <li><strong>Masked multi-head attention</strong>, where tokens gather context from the tokens before them.</li>
+                        <li>
+                            <strong>A feed-forward network</strong>, applied to each token's vector on its own. It expands the vector to a larger
+                            size (4× in the original paper), applies a ReLU (which sets negative values to zero), and compresses it back to its
+                            original size.
+                        </li>
+                    </ol>
+
+                    <p class="writing-text">
+                        Attention is where tokens share information, while the feed-forward network is where each token processes what it just gathered.
+                        Research suggests that many of the facts a model learns are stored in these layers.
+                    </p>
+
+                    <p class="writing-text">
+                        Each step is also wrapped with two helpers. A <strong>residual connection</strong> adds the step's input back to its output,
+                        so each step only has to learn an adjustment rather than rebuild the vector from scratch. <strong>Layer normalization</strong>
+                        then rescales the result to keep its values in a stable range. Together, they make it possible to train very deep stacks.
                     </p>
 
                     <div class="image-section">
-                        <img src="images/WritingImages/transformerswriting/decodervisual.png" alt="Decoder Layer Visual" style="max-width: 50%; display: block; margin: 0 auto;">
-                    </div>
+                        <div class="tf-figure">
+                            <svg class="tf-diagram" viewBox="0 0 450 665" role="img" aria-labelledby="tf-diagram-title">
+                                <title id="tf-diagram-title">Decoder-only transformer: token IDs go through embedding and positional encoding, then a transformer block of masked multi-head attention and a feed-forward network, each followed by add and norm, repeated N times, then a linear projection and softmax produce next-token probabilities.</title>
+                                <defs>
+                                    <marker id="tf-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                                        <path d="M0,0 L10,5 L0,10 z" fill="#000"/>
+                                    </marker>
+                                </defs>
+                                <g font-family="Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" text-anchor="middle">
+                                    <!-- Repeated block frame -->
+                                    <rect x="48" y="122" width="316" height="338" rx="14" fill="none" stroke="#999" stroke-width="1.5" stroke-dasharray="6 5"/>
+                                    <text x="58" y="141" font-size="11" fill="#666" text-anchor="start">Transformer block</text>
+                                    <text x="400" y="297" font-size="20" font-weight="700" fill="#000">× N</text>
 
-                    <p class="writing-text">
-                        Important note: the process of picking the next token using the probability distribution depends on something called
-                        temperature. Temperature pretty straight forward: the higher the temperature is, the more likely a token with a lower
-                        probability is chosen, the lower the temperature is, the more likely a token with a higher probability is chosen.
-                        For example, models with their temperature values set to 0 always pick the most likely next token. This means that
-                        it is deterministic by nature; feeding it the same prompt twice would result in the exact same output. Temperature
-                        is a single number, and it is usually hand picked by the developers of a model to influence how consistent
-                        or varied its behavior is.
-                    </p>
+                                    <!-- Main flow -->
+                                    <text x="190" y="18" font-size="15" fill="#000">Token IDs</text>
+                                    <line x1="190" y1="26" x2="190" y2="52" stroke="#000" stroke-width="2" marker-end="url(#tf-arrow)"/>
+                                    <line x1="190" y1="102" x2="190" y2="163" stroke="#000" stroke-width="2" marker-end="url(#tf-arrow)"/>
+                                    <line x1="190" y1="215" x2="190" y2="238" stroke="#000" stroke-width="2" marker-end="url(#tf-arrow)"/>
+                                    <line x1="190" y1="284" x2="190" y2="318" stroke="#000" stroke-width="2" marker-end="url(#tf-arrow)"/>
+                                    <line x1="190" y1="370" x2="190" y2="393" stroke="#000" stroke-width="2" marker-end="url(#tf-arrow)"/>
+                                    <line x1="190" y1="439" x2="190" y2="488" stroke="#000" stroke-width="2" marker-end="url(#tf-arrow)"/>
+                                    <line x1="190" y1="536" x2="190" y2="558" stroke="#000" stroke-width="2" marker-end="url(#tf-arrow)"/>
+                                    <line x1="190" y1="606" x2="190" y2="632" stroke="#000" stroke-width="2" marker-end="url(#tf-arrow)"/>
+                                    <text x="190" y="654" font-size="15" fill="#000">Next-token probabilities</text>
 
-                    <div class="image-section">
-                        <div style="display: block; text-align: center;">
-                            <img src="images/WritingImages/transformerswriting/temperaturevisual.gif" alt="Temperature Visual" style="max-width: 80%;">
-                            <div style="display: flex; justify-content: space-between; max-width: 80%; margin: 4px auto 0 auto;">
-                                <span style="font-size: 0.8em; color: #888;">temperature = 0.7</span>
-                                <span style="font-size: 0.8em; color: #888;">temperature = 0.0</span>
-                            </div>
-                            <p style="font-size: 0.8em; color: #888; margin-top: 4px;">Credit: ozera.app</p>
+                                    <!-- Residual connections -->
+                                    <path d="M190,145 H342 V262 H312" fill="none" stroke="#555" stroke-width="1.5" stroke-dasharray="4 4" marker-end="url(#tf-arrow)"/>
+                                    <path d="M190,300 H342 V417 H312" fill="none" stroke="#555" stroke-width="1.5" stroke-dasharray="4 4" marker-end="url(#tf-arrow)"/>
+                                    <circle cx="190" cy="145" r="4" fill="#000"/>
+                                    <circle cx="190" cy="300" r="4" fill="#000"/>
+
+                                    <!-- Embedding -->
+                                    <rect x="70" y="54" width="240" height="48" rx="10" fill="#E8E8E8" stroke="#888" stroke-width="1.5"/>
+                                    <text x="190" y="75" font-size="14" fill="#000">Embedding</text>
+                                    <text x="190" y="92" font-size="11" fill="#444">+ Positional Encoding</text>
+
+                                    <!-- Attention -->
+                                    <rect x="70" y="165" width="240" height="50" rx="10" fill="#DCD3FF" stroke="#8C7AD9" stroke-width="1.5"/>
+                                    <text x="190" y="186" font-size="14" fill="#000">Masked Multi-Head Attention</text>
+                                    <text x="190" y="204" font-size="11" fill="#444">Causal mask applied</text>
+
+                                    <!-- Add & Norm 1 -->
+                                    <rect x="70" y="240" width="240" height="44" rx="10" fill="#CBF3D3" stroke="#6FBF83" stroke-width="1.5"/>
+                                    <text x="190" y="259" font-size="14" fill="#000">Add &amp; Norm</text>
+                                    <text x="190" y="275" font-size="11" fill="#444">Residual + Layer Norm</text>
+
+                                    <!-- Feed-forward -->
+                                    <rect x="70" y="320" width="240" height="50" rx="10" fill="#FFDDBA" stroke="#E0A060" stroke-width="1.5"/>
+                                    <text x="190" y="341" font-size="14" fill="#000">Feed-Forward Network</text>
+                                    <text x="190" y="359" font-size="11" fill="#444">Expand → ReLU → Compress</text>
+
+                                    <!-- Add & Norm 2 -->
+                                    <rect x="70" y="395" width="240" height="44" rx="10" fill="#CBF3D3" stroke="#6FBF83" stroke-width="1.5"/>
+                                    <text x="190" y="414" font-size="14" fill="#000">Add &amp; Norm</text>
+                                    <text x="190" y="430" font-size="11" fill="#444">Residual + Layer Norm</text>
+
+                                    <!-- Output head -->
+                                    <rect x="70" y="490" width="240" height="46" rx="10" fill="#E8E8E8" stroke="#888" stroke-width="1.5"/>
+                                    <text x="190" y="510" font-size="14" fill="#000">Linear Projection</text>
+                                    <text x="190" y="527" font-size="11" fill="#444">One score per vocabulary token</text>
+
+                                    <rect x="70" y="560" width="240" height="46" rx="10" fill="#E8E8E8" stroke="#888" stroke-width="1.5"/>
+                                    <text x="190" y="580" font-size="14" fill="#000">Softmax</text>
+                                    <text x="190" y="597" font-size="11" fill="#444">Scores → probabilities</text>
+                                </g>
+                            </svg>
+                            <p class="tf-caption">The dashed block repeats N times, each copy with its own weights. The projection and softmax run once, at the end.</p>
                         </div>
                     </div>
 
                     <p class="writing-text">
-                        So why does all of this work? The mask is the critical, because without it, the model could look ahead 
-                        at future tokens while predicting the current one (essentially cheating during training). At 
-                        generation time, those future tokens don't exist yet, so any pattern the model learned by peeking 
-                        at them would be useless in practice. The mask ensures the model is always trained under the exact 
-                        same conditions it faces when actually generating a response.
+                        The full model is simply this block stacked many times: 6 in the original paper, 96 in GPT-3, and over 100 in some of
+                        today's largest models. Research suggests that earlier layers tend to pick up simpler, local patterns like grammar and
+                        common word pairings, while later layers build more abstract representations of what the text is about. Modern models
+                        tweak the details (for example, swapping ReLU for smoother functions and normalizing before each step instead of after),
+                        but the structure is the same.
+                    </p>
+
+                    <h2 class="writing-section-title">Generating Text</h2>
+
+                    <p class="writing-text">
+                        After the last block, the model has one vector per token. To predict what comes next, it takes the vector at the final
+                        position and passes it through a <strong>linear projection</strong>, which produces one score for every token in the
+                        vocabulary. A <strong>softmax</strong> then turns those scores into probabilities: every token in the vocabulary gets a
+                        probability, and they all add up to 1.
                     </p>
 
                     <p class="writing-text">
-                        All those repeated layers is what gives the model its expressive power. 
-                        Earlier layers tend to learn simple, local patterns: grammatical agreement, obvious word associations, 
-                        basic sentence structure. Later layers build up more abstract reasoning: whether the response is 
-                        staying on topic, whether the tone is consistent, how to close a thought coherently. Stacking many 
-                        layers is what lets the model move from surface-level pattern matching to something that looks, from 
-                        the outside, a lot like understanding.
+                        The next token is then picked from that distribution, and how it's picked depends on a setting called
+                        <strong>temperature</strong>. Before the softmax, the scores are divided by the temperature. A low temperature sharpens
+                        the distribution so the most likely tokens win more often, and a high temperature flattens it so less likely tokens get
+                        more of a chance. At a temperature of 0, the model always picks the single most likely token. In theory that makes the
+                        output fully deterministic, though in practice tiny numerical differences on GPUs can still cause occasional variation.
+                        It's important to note that temperature isn't part of the model itself. It's rather chosen each time the model is run, usually by the app or developer calling it.
+                    </p>
+
+                    <div class="image-section">
+                        <div class="tf-figure">
+                            <img src="images/WritingImages/transformerswriting/temperaturevisual.gif" alt="The same prompt generated at temperature 0.7 and temperature 0" style="max-width: 80%;">
+                            <div style="display: flex; justify-content: space-between; max-width: 80%; margin: 4px auto 0 auto;">
+                                <span style="font-size: 0.8em; color: #888;">temperature = 0.7</span>
+                                <span style="font-size: 0.8em; color: #888;">temperature = 0.0</span>
+                            </div>
+                            <p class="tf-caption">Credit: ozera.app</p>
+                        </div>
+                    </div>
+
+                    <p class="writing-text">
+                        The chosen token is added to the end of the sequence, and the whole process runs again to predict the token after that.
+                        The model writes one token at a time, each chosen with the entire text so far in view, until it produces a special
+                        end-of-sequence token (or hits a length limit). The token IDs are then mapped back into text. Chat apps usually show each
+                        token as soon as it's generated, which is why responses appear to stream in word by word.
                     </p>
 
                     <p class="writing-text">
-                        The final linear projection and softmax are the bridge back to human-readable language. The entire 
-                        model operates in a high-dimensional vector space that has no inherent concept of words. At some 
-                        point the mathematics has to map back to a concrete token from the vocabulary. Softmax ensures this 
-                        is always a proper probability distribution: every possible next token has a score, and the 
-                        model is always making a considered, calibrated guess about what should come next.
+                        Conceptually, every step re-reads the entire sequence. In practice, models save the keys and values they've already
+                        computed for earlier tokens (a <strong>KV cache</strong>), so each new step only has to process the newest token. This
+                        works because of the mask: earlier tokens never look at later ones, so their keys and values never change.
                     </p>
- 
+
+                    <h2 class="writing-section-title">How It Learns</h2>
+
                     <p class="writing-text">
-                        This loop of running the full input sequence through all the layers, picking the next token and adding it to the sequence,
-                        and repeating the process; is the mechanism that turns your prompt into a complete, coherent response.
-                        Now let's zoom out and see how every piece fits together into one continuous system.
+                        Everything so far describes a model that's already trained. But every matrix I've mentioned (the embedding table,
+                        W<sub>Q</sub>, W<sub>K</sub>, W<sub>V</sub>, the feed-forward weights, and the final projection) starts out as random
+                        numbers. So where do the useful values come from?
+                    </p>
+
+                    <p class="writing-text">
+                        The model is trained on an enormous amount of text with a simple goal: predict the next token. Take a passage from the
+                        training data, run it through the model, and at every position compare the model's predicted probabilities with the token
+                        that actually came next. The error is small when the model gave the correct token a high probability, and large when it
+                        didn't. Backpropagation then works out how much each weight contributed to that error and nudges it in the direction that
+                        reduces it. Repeat this over trillions of tokens, and the weights gradually turn into a compressed model of language.
+                    </p>
+
+                    <p class="writing-text">
+                        This is where the value of the mask comes in. Because each position can only see the tokens before it, a single pass over a
+                        1,000-token passage gives the model about 1,000 separate prediction exercises, all computed in parallel. Without the mask,
+                        each position could simply peek at the answer, and the model would learn a shortcut that's useless for generating text,
+                        where the future doesn't exist yet.
+                    </p>
+
+                    <p class="writing-text">
+                        One last detail: a model trained only this way is great at continuing text, but not at being an assistant. Ask it a question
+                        and it might just continue with more questions. Chat models go through additional training on example conversations and
+                        human feedback, which teaches them to follow instructions and respond helpfully. The architecture stays exactly the same;
+                        only the weights change.
                     </p>
 
                     <h2 class="writing-section-title">Putting It All Together</h2>
 
                     <p class="writing-text">
-                        Let's take a step back and trace the full journey. You open a chat interface, type a prompt, 
-                        and hit send. From that moment, a precise and remarkably elegant sequence of steps kicks off.
+                        Here's the full journey from the moment you hit send:
                     </p>
 
-                    <p class="writing-text">
-                        First, your prompt is handed to the tokenizer. It breaks your text into tokens and maps each one to an integer ID 
-                        from the model's vocabulary. Your words become a list of numbers.
-                    </p>
+                    <ol class="tf-list">
+                        <li><strong>Tokenize:</strong> your prompt is split into tokens, and each token is mapped to an integer ID.</li>
+                        <li><strong>Embed:</strong> each ID is looked up in the embedding table to get a vector representing its meaning.</li>
+                        <li><strong>Add position:</strong> a positional encoding is added to each vector, so the model knows the order of the tokens.</li>
+                        <li><strong>Run the blocks:</strong> the vectors pass through a stack of transformer blocks. In each one, attention lets every token gather context from the tokens before it, and the feed-forward network processes each token on its own.</li>
+                        <li><strong>Predict:</strong> the vector at the last position is projected to one score per vocabulary token, and softmax turns those scores into probabilities.</li>
+                        <li><strong>Pick:</strong> the next token is chosen from those probabilities, shaped by the temperature.</li>
+                        <li><strong>Repeat:</strong> the new token is added to the sequence, and steps 2 through 6 run again until the model produces an end-of-sequence token.</li>
+                    </ol>
 
                     <p class="writing-text">
-                        Those IDs are then passed to the embedding layer, which performs a lookup for each ID and retrieves a 
-                        high-dimensional vector that encodes the meaning of each token. Similar words 
-                        live near each other in this vector space, and the geometry between them captures real semantic relationships.
-                    </p>
-
-                    <p class="writing-text">
-                        Next, positional encoding adds a small, carefully crafted signal to each vector. Because the transformer 
-                        reads all tokens at once rather than one at a time, this is the only way it knows what order they came in. 
-                        After this step, each vector carries two things simultaneously: what the token means, and where it sits in 
-                        the prompt.
-                    </p>
-
-                    <p class="writing-text">
-                        These position-aware vectors then enter the decoder stack: a deep sequence of identical layers, each 
-                        applying the same two operations. First, masked multi-head self-attention, where every token looks at 
-                        every token before it, scores their relevance, and updates its own vector by blending in the information 
-                        from the most relevant ones. Then, a feed-forward network processes each token's updated vector 
-                        individually, giving it a chance to process and consolidate what it just learned. This entire two-step 
-                        process repeats through every layer of the stack.
-                    </p>
-
-                    <p class="writing-text">
-                        With each layer, the representation gets richer. Early layers pick up surface-level patterns: 
-                        syntax, word associations, grammatical structure. Later layers build up something more like reasoning: 
-                        what the prompt is really asking for, what tone is appropriate, how to structure a coherent answer. 
-                        By the time the vectors have passed through all the layers, they carry a deeply contextual 
-                        understanding of the entire sequence.
-                    </p>
-
-                    <p class="writing-text">
-                        The single vector at the final position is then passed through a linear projection, which produces one score 
-                        for every token in the vocabulary. A softmax converts those scores into a probability distribution. 
-                        The model picks the next token based on its configured temperature.
-                    </p>
-
-                    <p class="writing-text">
-                        That token is appended to the sequence. Now the model has your original prompt plus one generated token. 
-                        The whole process runs again: the entire extended sequence is re-embedded, re-encoded, and passed 
-                        through every layer from scratch. Another token is selected and appended. Then again. And again. 
-                        This loop continues until the model produces a special end token, signaling that the response is 
-                        complete. The final sequence of token IDs is then passed back through the vocabulary in reverse 
-                        (mapped from IDs back into text) and the response appears on your screen.
-                    </p>
-
-                    <p class="writing-text">
-                        Zooming all the way out, what makes this system work isn't any single component in isolation. It's 
-                        how they fit together. Tokenization gives the model a compact, consistent language to work in. 
-                        Embeddings give that language geometric structure and meaning. Positional encoding gives the model a 
-                        sense of sequence without sacrificing the ability to look at everything at once. Attention gives each 
-                        token a way to gather context from across the entire prompt. The stacked decoder layers give the model 
-                        depth, letting it build increasingly abstract representations of what's being asked. And the final 
-                        projection and softmax with temperature give it a way to collapse all of that abstraction into a concrete,
-                        calibrated decision about what word comes next.
-                    </p>
-
-                    <p class="writing-text">
-                        No single step is magic. Each one is doing something relatively simple and well-defined. But stacked 
-                        together, trained end-to-end on an enormous amount of text, they produce something that can write 
-                        essays, answer questions, debug code, translate languages, and hold a conversation. All from the same 
-                        underlying loop of: read everything, predict the next word, repeat.
-                    </p>
-
-                    <p class="writing-text">
-                        That's the transformer in LLMs. Pure mathematics applied with remarkable elegance.
+                        Each step of the model is fairly simple on its own from a mathematical perspective: a lookup table, some sine waves, dot products, a softmax, and
+                        a small neural network, repeated over and over. But stacked together and trained on an enormous amount of text, they produce
+                        something that can write essays, answer questions, debug code, and hold a conversation, all from the same loop: read
+                        everything so far, predict the next token, repeat.
                     </p>
 
                 </div>
