@@ -14,6 +14,11 @@
     --font-didot: 'Didot', 'Helvetica Now Text', 'Arial', Sans-Serif;
 }
 
+::selection {
+    background-color: var(--primary-black);
+    color: var(--primary-white);
+}
+
 html {
     scroll-behavior: smooth;
 }
